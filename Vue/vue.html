@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>利用Vue生成一个TodoList</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<link rel="stylesheet" href="init.css">
+	<link rel="stylesheet" href="vue.css">
+</head>
+<body>
+	<section id='todo'>
+		<header>
+			<h3>todos</h3>
+			<input type="text" placeholder="你需要做什么？" value='你需要做什么？' @keyup.enter='handerKeyUp' v-model='list'>
+		</header>
+		<section>
+			<ul>
+				<li v-for='(item,index) of lists' :key='index' @mouseenter="showDetails(index)" @mouseleave="hiddenDetail(index)" ref='toli'>
+					<span>{{index+1}}.  {{item}}</span>
+					<i @click='handerDel'>x</i>
+				</li>
+			</ul>
+		</section>
+		<footer>
+			<span>一共{{leng}}项任务</span>
+		</footer>
+	</section>
+</body>
+<script>
+	var app = new Vue({
+		el: '#todo',
+		data:{
+			lists:[],
+			list:''
+		},
+		methods:{
+			handerKeyUp:function(){
+			 	if(this.list){
+					this.lists.push(this.list);
+					this.list = '';
+				}				
+			},
+			showDetails:function(index){
+				this.$refs.toli[index].children[1].style.display = 'block';
+			},
+			hiddenDetail:function(index){
+				this.$refs.toli[index].children[1].style.display = 'none';
+			},
+			handerDel:function(){
+				this.lists.splice(this.index,1);
+			}
+		},
+		computed:{
+			leng:function(){
+				return this.lists.length;
+			}
+		}
+	})
+</script>
+</html>
